@@ -1,0 +1,33 @@
+#!/bin/bash
+
+asterisk_bin=/apps/pbx/bin/asterisk
+asterisk_pid=/apps/pbx/var/run/asterisk.pid
+asterisk_cfg=/apps/pbx/etc/asterisk/asterisk.conf
+asterisk_args="-C $asterisk_cfg"
+
+case "${1}" in
+	start)
+                mkdir -p /apps/pbx/var/lib/asterisk/
+                cd /apps/pbx/var/lib/asterisk/
+                if [ ! -f  astdb ] ; then
+                    ln -s /apps/pbx/etc/astdb astdb
+                fi
+		/sbin/start-stop-daemon --start -p ${asterisk_pid} -m ${asterisk_pid} -b -x ${asterisk_bin} -- ${asterisk_args}
+		;;
+	stop)
+		/sbin/start-stop-daemon --stop -p ${asterisk_pid}
+		rm -f ${asterisk_pid}
+		killall -9 asterisk
+		;;
+	restart)
+		${0} stop
+		sleep 1
+		${0} start
+		;;
+	*)
+		echo "Usage: ${0} {start|stop}"
+		exit 1
+		;;
+esac
+
+exit 0

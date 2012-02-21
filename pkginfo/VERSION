@@ -1,0 +1,9 @@
+NAME=asterisk-pbx
+VERSION=1
+DESCRIPTION="small, asterisk-based pbx"
+NEED_KERNEL=1
+NEED_ROOTFS=3
+SLOTS=2
+NEED_APPFS=2
+TYPE=userappfs
+NEED_FIRMWARE=1
