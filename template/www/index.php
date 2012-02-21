@@ -5,7 +5,7 @@ function get_userapp_name () {
 
 	$ret = "Unknown UserAppFS";
 
-	if (($fp = fopen("/apps/pbx/VERSION", "r"))) {
+	if (($fp = fopen("/apps/asterisk/VERSION", "r"))) {
 		$buf = fread($fp, 1024);
 		fclose($fp);
 
@@ -19,7 +19,7 @@ function get_userapp_name () {
 
 $userapp_n	= get_userapp_name();
 
-exec('/apps/pbx/bin/asterisk -C /apps/pbx/etc/asterisk/asterisk.conf -rnx "sip show peers" | sed "s/Dyn Forcerport ACL//" | sed "s/ D //" | sed "s/OK (\(.*\) ms)/OK-(\1_ms)/"  | grep -v "Monitored:" | sed "s/[ ]*/<\/td><td>/g"  | sed "s/^<td>//" | sed "s/^<\/td>//" | sed "s/<td>$//"', $tmppeers);
+exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "sip show peers" | sed "s/Dyn Forcerport ACL//" | sed "s/ D //" | sed "s/OK (\(.*\) ms)/OK-(\1_ms)/"  | grep -v "Monitored:" | sed "s/[ ]*/<\/td><td>/g"  | sed "s/^<td>//" | sed "s/^<\/td>//" | sed "s/<td>$//"', $tmppeers);
 $sippeers=implode("<tr></tr>", $tmppeers);
 
 
