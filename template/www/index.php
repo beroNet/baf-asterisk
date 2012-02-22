@@ -19,14 +19,26 @@ function get_userapp_name () {
 
 $userapp_n	= get_userapp_name();
 
+if ($_GET['action'] == "reload" ) {
+    exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "module reload"');
+}
+
+
 exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "sip show peers" | sed "s/Dyn Forcerport ACL//" | sed "s/ D //" | sed "s/OK (\(.*\) ms)/OK-(\1_ms)/"  | grep -v "Monitored:" | sed "s/[ ]*/<\/td><td>/g"  | sed "s/^<td>//" | sed "s/^<\/td>//" | sed "s/<td>$//"', $tmppeers);
 $sippeers=implode("<tr></tr>", $tmppeers);
 
 
 $ret			=	"<h1>" . $userapp_n. " </h1>\n
 				<hr noshade/>" .
-				"<div>Go to <a href=\"/app/berogui/\">berogui</a>&nbsp;&nbsp;</div>\n" .
-				"<h2>Asterisk</h2>" .
+                                "<div>Go to: 
+                                <table><tr>
+                                <td><a href=\"/app/berogui/\">berogui</a></td>
+                                <td><a href=\"filemanager.php\">Asterisk Configuration</a></td>
+                                <td><a href=\"index.php?action=reload\">Reload Configuration</a></td>
+                                </tr></table>
+                                </div>\n" .
+
+                                "<h2>Asterisk</h2>" .
                                 "<div>You can use SIP Phones to register at Asterisk with SIP Port 25060.<br>".
                                 "There are 10 SIP Users: Username=10..20 Secret=10..20<br><br>".
                                 "<b>Example SIP Phone Configuration:</b><br>".
