@@ -7,8 +7,9 @@ if ($_GET['cmd'] == "connect" ) {
 
     $callfile="
 Channel: SIP/$source\n
+Callerid: $destination\n
 Application: Dial\n
-Data: Local/$destination@default,,r\n
+Data: Local/$destination@default\n
 ";
 
 
