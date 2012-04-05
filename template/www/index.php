@@ -20,7 +20,7 @@ function get_userapp_name () {
 $userapp_n	= get_userapp_name();
 
 if ($_GET['action'] == "reload" ) {
-    exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "module reload"');
+    exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "core reload"');
 }
 
 
