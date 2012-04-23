@@ -39,24 +39,10 @@ $ret			=	"<h1>" . $userapp_n. " </h1>\n
                                 </div>\n" .
 
                                 "<h2>Asterisk</h2>" .
-                                "<div>You can use SIP Phones to register at Asterisk with SIP Port 25060.<br>".
-                                "There are 10 SIP Users: Username=10..20 Secret=10..20<br><br>".
-                                "<b>Example SIP Phone Configuration:</b><br>".
-                                "SIP Registrar: ".$_SERVER['SERVER_NAME'].":25060<br>".
-                                "SIP Server: ".$_SERVER['SERVER_NAME'].":25060<br>".
-                                "SIP Proxy: ".$_SERVER['SERVER_NAME'].":25060<br>".
-                                "SIP Server Port: 25060<br>".
-                                "Username=10<br>".
-                                "Secret=10<br>".
-                                "<br>".
-                                "<b>Howto Dial</b><br>".
-                                "Every extensions can reach each other, by just dialing the extensions. <b>Example:</b> Dial 11 to reach Phone 11<br>".
-                                "The beroFix can be reached by prefixing the call with a 0. <b>Example:</b> Dial 01234 to dial 1234 to berofix.<br>".
                                 "<br><br><b>Stauts:</b><br>".
                                 "<table width=100%>".
                                 $sippeers.
-                                "</table>".
-                                "</div>\n";
+                                "</table>";
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n
 	<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n
