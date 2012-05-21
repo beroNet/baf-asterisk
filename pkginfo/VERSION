@@ -1,6 +1,6 @@
-NAME=asterisk-pbx
-VERSION=1
-DESCRIPTION="small, asterisk-based pbx"
+NAME=asterisk
+VERSION=2
+DESCRIPTION="small, asterisk"
 NEED_KERNEL=1
 NEED_ROOTFS=3
 SLOTS=2

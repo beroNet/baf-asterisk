@@ -1,6 +1,6 @@
 <?php
 
-$app_name	= 'pbx';
+$app_name	= 'asterisk';
 $base_path	= '/apps/' . $app_name;
 $conf_path	= $base_path . '/etc';
 
@@ -21,6 +21,10 @@ if (!isset($_SESSION['beroari_time'])) {
 # reset session time
 $_SESSION['beroari_time'] = time();
 
+if ($_GET['action'] == "reload" ) {
+    exec($base_path . '/bin/asterisk -C ' . $conf_path . '/asterisk/asterisk.conf -rnx "core reload"');
+}
+
 $ast_exec = $base_path . '/bin/asterisk';
 $ast_opts = '-C ' . $conf_path . '/asterisk/asterisk.conf -rnx "sip show peers"';
 
@@ -32,7 +36,6 @@ $sed_exec = 	'sed "s/Dyn Forcerport ACL//" | ' .
 		'sed "s/^<td>//" | ' .
 		'sed "s/^<\/td>//" | '.
 		'sed "s/<td>$//"';
-
 exec($ast_exec . ' ' . $ast_opts . ' | ' . $sed_exec, $peers_tmp);
 
 $peers_sip = implode('<tr></tr>', $peers_tmp);
@@ -54,7 +57,9 @@ echo	"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" .
 	"\t\t\t<div class=\"left\">\n" .
 	"\t\t\t\t<h1>" . $app_name . "</h1>\n" .
 	"\t\t\t\t<hr noshade />\n" .
-	"\t\t\t\t<div>Menu: <a href=\"/app/berogui/\">berogui</a> | <a href=\"/userapp/\">UserApp Management</a></div>\n" .
+	"\t\t\t\t<div>\n" .
+	"\t\t\t\t\tMenu: <a href=\"/app/berogui/\">berogui</a> | <a href=\"/userapp/\">UserApp Management</a> | <a href=\"?action=reload\">Reload</a>\n" .
+	"\t\t\t\t</div>\n" .
 	"\t\t\t\t<h2>Asterisk</h2>\n" .
 	"\t\t\t\t<div>\n" .
 	"\t\t\t\t\tYou can use SIP Phones to register at Asterisk with SIP Port 25060.<br />\n" .
