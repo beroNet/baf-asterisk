@@ -1,5 +1,5 @@
 NAME=asterisk
-VERSION=2
+VERSION=3
 DESCRIPTION="small, asterisk"
 NEED_KERNEL=1
 NEED_ROOTFS=3

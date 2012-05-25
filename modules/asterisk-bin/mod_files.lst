@@ -58,6 +58,7 @@ lib/modules/func_extstate.so=>lib/func_extstate.so
 lib/modules/func_groupcount.so=>lib/func_groupcount.so
 lib/modules/func_realtime.so=>lib/func_realtime.so
 lib/modules/func_sprintf.so=>lib/func_sprintf.so
+lib/modules/func_strings.so=>lib/func_strings.so
 lib/modules/pbx_config.so=>lib/pbx_config.so
 lib/modules/pbx_dundi.so=>lib/pbx_dundi.so
 lib/modules/pbx_loopback.so=>lib/pbx_loopback.so
