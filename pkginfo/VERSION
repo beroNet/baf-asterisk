@@ -1,9 +1,9 @@
 NAME=asterisk
-VERSION=3
-DESCRIPTION="small, asterisk"
+VERSION=4
+DESCRIPTION="Small Asterisk app for bero*fix"
 NEED_KERNEL=1
 NEED_ROOTFS=3
-SLOTS=2
+SLOTS=4
 NEED_APPFS=2
 TYPE=userappfs
 NEED_FIRMWARE=1
