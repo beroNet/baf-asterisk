@@ -8,3 +8,10 @@ if [ ! -f /apps/asterisk/etc/asterisk/asterisk.conf ] ; then
     sync
 fi
 
+if [ ! -d /apps/asterisk/var/lib/asterisk/moh ] ; then
+    echo "Copying MOH sound files"
+    mkdir -p /apps/asterisk/var/lib/asterisk/moh/
+    cp -a /apps/asterisk/moh/* /apps/asterisk/var/lib/asterisk/moh/
+    sync
+fi
+
