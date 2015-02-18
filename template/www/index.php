@@ -1,59 +1,67 @@
 <?php
 
+include(file_exists('/home/admin/lib/php/beroGui.class.php') ? '/home/admin/lib/php/beroGui.class.php' : '/apps/asterisk/lib/php/beroGui.class.php');
 
-function get_userapp_name () {
-	$ret = "Unknown UserAppFS";
-	if (($fp = fopen("/apps/asterisk/VERSION", "r"))) {
-		$buf = fread($fp, 1024);
-		fclose($fp);
-		if (preg_match("/NAME=.+\n/", $buf, $matches)) {
-			$ret = trim(substr($matches[0], strpos($matches[0], '=') + 1), "\"\n");
-		}
+function sippeers_table () {
+
+	exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "sip show peers"', $asterisk_out, $retval);
+
+	if ($retval != 0) {
+		return(false);
 	}
+
+	$ret =	'<table>' . "\n" .
+		'<tr>';
+	$table_head = array_filter(explode(' ', $asterisk_out[0]));
+	foreach ($table_head as $head) {
+		if (in_array($head, array('Dyn', 'Forcerport', 'ACL'))) {
+			continue;
+		}
+		$ret .= '<th style="text-align: center;">' . ucwords(str_replace('/', ' / ', $head)) . '</th>';
+	}
+	$ret .= '</tr>' . "\n";
+
+	for ($i = 1; $i < (count($asterisk_out) - 1); $i++) {
+		$tmp_row = array_merge(array_filter(explode('  ', $asterisk_out[$i])));
+		unset($tmp_row[2]);
+		unset($tmp_row[3]);
+		$ret .= '<tr>';
+		foreach ($tmp_row as $item) {
+			$ret .= '<td style="text-align: center;">' . $item . '</td>';
+		}
+		$ret .= '</tr>' . "\n";
+	}
+
+	$ret .= '</table>' . "\n";
+
 	return($ret);
 }
-$userapp_n	= get_userapp_name();
 
-if ($_GET['action'] == "reload" ) {
-    exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "core reload"');
+$app_name = 'asterisk';
+require_once(file_exists('/home/admin/lib/php/session.php') ? '/home/admin/lib/php/session.php' : '/apps/asterisk/lib/php/session.php');
+
+switch ($_GET['action']) {
+case 'reload':
+	exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "core reload"');
+	sleep(2);
+	break;
+case 'restart':
+	exec('/apps/asterisk/init/S01asterisk restart');
+	sleep(2);
+	break;
 }
 
-exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "sip show peers" | sed "s/Dyn Forcerport ACL//" | sed "s/ D //" | sed "s/ N //" | sed "s/OK (\(.*\) ms)/OK-(\1_ms)/"  | grep -v "Monitored:" | sed "s/[ ]*/<\/td><td>/g"  | sed "s/^<td>//" | sed "s/^<\/td>//" | sed "s/<td>$//"', $tmppeers);
-$sippeers=implode("<tr></tr>", $tmppeers);
+if (($body = sippeers_table()) == false) {
+	$body = '<div style="color: red; font-weight: bold; text-align: center;">Warning: Asterisk does not seem to be running!</div>' . "\n";
+}
+
+$gui = new beroGUIv2('Asterisk');
+
+$menu = array(	array('url' => '?action=reload', 'id' => 'reload', 'title' => 'Reload Asterisk'),
+		array('url' => '?action=restart', 'id' => 'restart', 'title' => 'Restart Asterisk'));
+
+echo	$gui->get_MainHeader($menu, null) .
+	$body .
+	$gui->get_MainFooter();
 
 ?>
-
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
- <head>
-  <link type="text/css" href="./include/css/berofog.css" rel="Stylesheet" />
-  <title><?php echo $userapp_n ?> </title>
- </head>
-
- <body>
-  <div class='main'>
-  <div class='top'><img src="./include/images/bg_top.png"/></div>
-  <div class='left'>
-
-  <h1> <?php echo $userapp_n ?>  </h1>
-  <hr noshade/>
-  <div>Go to: 
-   <table><tr>
-    <td><a href="/app/berogui/">berogui</a></td>
-    <td><a href="filemanager.php">Asterisk Configuration</a></td>
-    <td><a href="index.php?action=reload">Reload Configuration</a></td>
-    </tr>
-   </table>
-  </div>
-
-  <h2>Asterisk</h2>
-
-  <br><b>SIP Status:</b><br>
-  <table width=100%>
-   <?php echo $sippeers ?>
-  </table>
- </div>
- <div class='bottom'><img src="./include/images/bg_bottom.png"></div>
- </div>
- </body>
-</html>
