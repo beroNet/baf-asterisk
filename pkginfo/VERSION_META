@@ -1,6 +1,6 @@
 NAME=asterisk
-VERSION=6
-DESCRIPTION="Small Asterisk App for bero*fix"
+VERSION=7
+DESCRIPTION="Small asterisk-app for the beroNet VoIP Gateway"
 NEED_KERNEL=1
 NEED_ROOTFS=3
 SLOTS=4
