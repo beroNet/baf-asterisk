@@ -24,7 +24,9 @@ function sippeers_table () {
 	for ($i = 1; $i < (count($asterisk_out) - 1); $i++) {
 		$tmp_row = array_merge(array_filter(explode('  ', $asterisk_out[$i])));
 		unset($tmp_row[2]);
-		unset($tmp_row[3]);
+		if ($tmp_row[3] == ' N') {
+			unset($tmp_row[3]);
+		}
 		$ret .= '<tr>';
 		foreach ($tmp_row as $item) {
 			$ret .= '<td style="text-align: center;">' . $item . '</td>';
