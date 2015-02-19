@@ -10,7 +10,7 @@ function sippeers_table () {
 		return(false);
 	}
 
-	$ret =	'<table>' . "\n" .
+	$ret =	'<table id="table" class="contenttoc">' . "\n" .
 		'<tr>';
 	$table_head = array_filter(explode(' ', $asterisk_out[0]));
 	foreach ($table_head as $head) {
