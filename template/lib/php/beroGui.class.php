@@ -56,11 +56,25 @@ Class beroGUIv2 {
 
 	private function _html_menu ($menu) {
 
+		if ($handle = opendir('/home/admin/apps/')) {
+			while (false !== ($file = readdir($handle))) {
+				if (in_array($file, array('.', '..'))) {
+					continue;
+				}
+				$submenu[] = array('title' => $file, 'id' => 'app_' . $file, 'url' => '/userapp/' . $file);
+			}
+			closedir($handle);
+		}
+
+		$menu[] = array('title' => 'Apps', 'id' => 'apps', 'url' => '', 'submenu' => $submenu);
+		unset($submenu);
+
 		$submenu[] = array('title' => 'App Management', 'id' => 'app_management', 'url' => '/userapp/');
 		$submenu[] = array('title' => 'App Market', 'id' => 'app_market', 'url' => '/app/berogui/index.php?m=market');
 		$submenu[] = array('title' => 'beroGui', 'id' => 'berogui', 'url' => '/app/berogui/');
 		$submenu[] = array('title' => 'Logout', 'id' => 'logout', 'url' => '/app/berogui/includes/logout.php');
 		$menu[] = array('title' => 'Management', 'id' => 'management', 'url' => '', 'submenu' => $submenu);
+		unset($submenu);
 
 		$ret =	"\n<!-- BEGIN FUNCTION _HTML_MENU //-->\n\n" .
 			"\t\t\t\t<div id=\"myslidemenu\" class=\"jqueryslidemenu\">\n" .
