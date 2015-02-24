@@ -1,7 +1,5 @@
 <?php
 
-include(file_exists('/home/admin/lib/php/beroGui.class.php') ? '/home/admin/lib/php/beroGui.class.php' : '/apps/asterisk/lib/php/beroGui.class.php');
-
 function sippeers_table () {
 
 	exec('/apps/asterisk/bin/asterisk -C /apps/asterisk/etc/asterisk/asterisk.conf -rnx "sip show peers"', $asterisk_out, $retval);
@@ -40,7 +38,8 @@ function sippeers_table () {
 }
 
 $app_name = 'asterisk';
-require_once(file_exists('/home/admin/lib/php/session.php') ? '/home/admin/lib/php/session.php' : '/apps/asterisk/lib/php/session.php');
+include(file_exists('/home/admin/lib/php/beroGui.class.php') ? '/home/admin/lib/php/beroGui.class.php' : '/apps/' . $app_name . '/lib/php/beroGui.class.php');
+require_once(file_exists('/home/admin/lib/php/session.php') ? '/home/admin/lib/php/session.php' : '/apps/' . $app_name . '/lib/php/session.php');
 
 switch ($_GET['action']) {
 case 'reload':
